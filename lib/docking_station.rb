@@ -1,3 +1,5 @@
+require_relative 'bike'
+
 class DockingStation
 
   DEFAULT_CAPACITY = 20
@@ -16,6 +18,7 @@ class DockingStation
 
   def release_bike
     fail 'No bikes available' if empty?
+    fail 'Bike is broken' if @all_bikes.last.broken? == true
     @all_bikes.pop
   end
 
