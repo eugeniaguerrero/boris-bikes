@@ -1,7 +1,6 @@
-require './lib/docking_station'
+require './lib/van'
+require './lib/bike'
 
-docking_station = DockingStation.new
 bmx = Bike.new
-bmx.report_broken
-docking_station.dock(bmx)
-docking_station.release_bike
+van = Van.new
+van.load(bmx)
