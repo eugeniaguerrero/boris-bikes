@@ -6,13 +6,13 @@ describe DockingStation do
   it { is_expected.to respond_to(:dock).with(1).argument }
 
   it 'docks bikes' do
-    bmx = Bike.new
+    bmx = double :bike
     expect(subject.dock(bmx)).to eq [bmx]
   end
 
   describe '#release_bike' do
     it 'releases working bikes' do
-      bmx = Bike.new
+      bmx = double :bike
       subject.dock(bmx)
       released_bike = subject.release_bike
       expect(released_bike).to be_working
@@ -23,7 +23,7 @@ describe DockingStation do
     end
 
     it 'raises an error when attempting to release a broken bike' do
-      bmx = Bike.new
+      bmx = double :bike
       bmx.report_broken
       subject.dock(bmx)
       expect{ subject.release_bike}.to raise_error 'Bike is broken'
@@ -32,15 +32,14 @@ end
 
   describe '#dock' do
     it 'raises an error when full' do
-      DockingStation::DEFAULT_CAPACITY.times { subject.dock Bike.new }
-      expect { subject.dock Bike.new }.to raise_error 'Docking station full'
+      DockingStation::DEFAULT_CAPACITY.times { subject.dock double :bike }
+      expect { subject.dock double(:bike) }.to raise_error 'Docking station full'
     end
-  end
 
     it 'has a default capacity' do
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
-
+end
   describe '#initialize' do
     it 'allows a user to set the capacity' do
       docking_station = DockingStation.new(@capacity)
