@@ -2,8 +2,8 @@ require 'van'
 
 describe Van do
 
-  it { is_expected.to respond_to :load }
-
+  it { is_expected.to respond_to :release_bike }
+  
   describe '#load' do
     it 'van loads a bike' do
     bmx = double :bike

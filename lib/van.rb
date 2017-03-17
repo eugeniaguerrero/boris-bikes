@@ -8,4 +8,7 @@ class Van
     @van << bmx
   end
 
+  def release_bike
+    @van.pop
+  end
 end
