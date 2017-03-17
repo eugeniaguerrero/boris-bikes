@@ -11,8 +11,10 @@ describe DockingStation do
   end
 
   describe '#release_bike' do
+    let(:bike) { double :bike }
     it 'releases working bikes' do
       bmx = double :bike
+      allow(bmx).to receive(:working?).and_return(true)
       subject.dock(bmx)
       released_bike = subject.release_bike
       expect(released_bike).to be_working
@@ -22,11 +24,12 @@ describe DockingStation do
       expect { subject.release_bike}.to raise_error 'No bikes available'
     end
 
-    it 'raises an error when attempting to release a broken bike' do
+    let(:bike) { double :bike }
+    it 'does not release broken bikes' do
       bmx = double :bike
-      bmx.report_broken
+      allow(bmx).to receive(:working?).and_return(false)
       subject.dock(bmx)
-      expect{ subject.release_bike}.to raise_error 'Bike is broken'
+      expect { subject.release_bike}.to raise_error 'Bike is broken'
  end
 end
 
@@ -40,6 +43,7 @@ end
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 end
+
   describe '#initialize' do
     it 'allows a user to set the capacity' do
       docking_station = DockingStation.new(@capacity)
